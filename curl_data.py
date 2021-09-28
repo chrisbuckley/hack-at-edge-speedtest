@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os, sys
 
@@ -57,7 +57,7 @@ def plot(fname):
 
 
 if len(sys.argv) < 2:
-    print "Usage: %s [curl_data_filename]" % sys.argv[0]
+    print ("Usage: %s [curl_data_filename]" % sys.argv[0])
     exit(1)
 else:
     lines = readCurlData(sys.argv[1])
