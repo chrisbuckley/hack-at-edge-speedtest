@@ -1,6 +1,4 @@
 #!/bin/bash 
- 
-# set -x
 
 readonly BASE_URL=https://speedtest.edgecompute.app/
 readonly TEST_TYPE=$1
@@ -45,7 +43,7 @@ upload_data() {
     dd if=/dev/zero of=upload.bin  bs=1024  count=10240 > /dev/null 2>&1
 
     curl -w '\nTEST - Upload size:\t%{size_upload}\nTEST - Average upload speed:\t%{speed_upload}\n\n' -F 'data=@upload.bin' "${url}" 2>&1 \
-        | tr -u '\r' '\n' > curl.out
+        | tr '\r' '\n' > curl.out
 
     rm upload.bin
 
@@ -55,7 +53,7 @@ generate_report() {
 
     ./curl_data.py curl.out 
     
-    imgcat curl.out.png
+    ./imgcat curl.out.png
 }
 
 run_tests() {

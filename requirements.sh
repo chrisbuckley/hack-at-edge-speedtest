@@ -6,12 +6,6 @@ countdown()
 		sleep 1
 	done
 
-echo "Installing python 2"
-
-countdown
-
-brew install python2
-
 echo "Installing GNU plot"
 
 countdown

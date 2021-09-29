@@ -42,7 +42,7 @@ def plot(fname):
     f.write('set output "%s"\n' % png_fname)
     f.write('set datafile separator ","\n')
     f.write('set terminal png size 1400,800\n')
-    f.write('set title "Download Speed"\n')
+    f.write('set title "Transfer Speed"\n')
     f.write('set ylabel "Speed (Mbits/s)"\n')
     f.write('set xlabel "Time (seconds)"\n')
     f.write('set xdata time\n')
