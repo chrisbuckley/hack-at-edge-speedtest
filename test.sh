@@ -1,15 +1,17 @@
 #!/bin/bash 
 
-readonly BASE_URL=https://speedtest.edgecompute.app/
+# readonly BASE_URL=https://speedtest.edgecompute.app/
+readonly BASE_URL=https://speedtest.global.ssl.fastly.net/
 readonly TEST_TYPE=$1
 readonly SIZE=$2
+readonly BOLD_TEXT=$(tput bold 2>/dev/null)
+readonly NORMAL_TEXT=$(tput sgr0 2>/dev/null)
 
 cleanup_old_files() {
     rm -rf curl.out.g*
 }
 
 download_data() {
-
     local size=$1
 
     case $size in
@@ -29,33 +31,46 @@ download_data() {
             print_usage
     esac
 
-
-    echo "Beginning download of ${size} test file..."
-    curl -w '\nTEST - Download size:\t%{size_download}\nTEST - Average download speed:\t%{speed_download}\n\n' -L -o /dev/null "${url}" 2>&1 \
+    echo "${BOLD_TEXT}Beginning download of ${size} test file...${NORMAL_TEXT}"
+    curl -w "\nDownload size:\t%{size_download}\nAverage speed:\t%{speed_download}\n\n" -L -o /dev/null "${url}" 2>&1 \
         | tr '\r' '\n' > curl.out
+
+    echo ""
+    echo "-----------------------------------"
+    grep "Download size" curl.out | awk '{print $1,$2,$3 / 1048576,"MB"}'
 
 }
 
 upload_data() {
-
     local size=$1
     local url="${BASE_URL}__up"
 
     # Create test file
+    echo "${BOLD_TEXT}Creating ${size} test file...${NORMAL_TEXT}"
     dd if=/dev/zero of=upload.bin  bs=1024  count=10240 > /dev/null 2>&1
 
-    curl -w '\nTEST - Upload size:\t%{size_upload}\nTEST - Average upload speed:\t%{speed_upload}\n\n' -F 'data=@upload.bin' "${url}" 2>&1 \
+    echo ""
+    echo "${BOLD_TEXT}Beginning upload of ${size} test file...${NORMAL_TEXT}"
+    # curl -F 'data=@upload.bin' "${url}" 2>&1 \
+    curl -w '\nUpload size:\t%{size_upload}\nAverage speed:\t%{speed_upload}\n\n' -F 'data=@upload.bin' "${url}" 2>&1 \
         | tr '\r' '\n' > curl.out
+    echo ""
+    echo "-----------------------------------"
+    grep "Upload size" curl.out | awk '{print $1,$2,$3 / 1048576,"MB"}'
 
     rm upload.bin
 
 }
 
 generate_report() {
+    echo "${BOLD_TEXT}Generating visual report..${NORMAL_TEXT}"
+    echo ""
 
     ./curl_data.py curl.out 
     
     ./imgcat curl.out.png
+
+    echo ""
 }
 
 run_tests() {
@@ -78,9 +93,7 @@ run_tests() {
 }
 
 show_average_speed() {
-    echo ""
-    echo "-----------------------------------"
-    grep "TEST -" curl.out
+    grep "Average speed" curl.out | awk '{print $1,$2,$3 / 125000,"mbit/sec"}'
     echo "-----------------------------------"
     echo ""
 }
@@ -91,12 +104,11 @@ print_usage() {
 }
 
 show_error() {
-    echo "Missing components for report generation. Please run './requirements.sh'"
+    echo "${BOLD_TEXT}Missing components for report generation. Please run './requirements.sh'${NORMAL_TEXT}"
     exit 1
 }
 
 main() {
-
     local test_type=${TEST_TYPE}
     local size=${SIZE}
 

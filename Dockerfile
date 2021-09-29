@@ -20,7 +20,7 @@ WORKDIR /app
 
 COPY test.sh curl_data.py requirements.sh imgcat ./
 
-RUN chmod -R +x ./ \
+RUN chmod -R 701 ./ \
 	&& chown -R nobody:nogroup ./
 
 USER nobody
