@@ -57,6 +57,9 @@ upload_data() {
     local url="${BASE_URL}__up"
 
     case $size in
+        5M)
+            local file_size=$((5 * 1024))
+            ;;
         10M)
             local file_size=$((10 * 1024))
             ;;
@@ -133,7 +136,7 @@ show_average_speed() {
 }
 
 print_usage() {
-    echo "Usage: $(basename $0) (up|down) [100M|200M|500M|1G]"
+    echo "Usage: $(basename $0) up [5M|10M|20M|50M] | down [100M|200M|500M|1G]"
     exit 1
 }
 
