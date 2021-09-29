@@ -46,5 +46,5 @@ Run without arguments to see a list of options.
 * [Mark Richards](https://github.com/markrichards)
 * [Chris Buckley](https://github.com/chrisbuckley)
 
-Huge thank-you to [Copperlight](https://copperlight.github.io/shell/measuring-transfer-speed-over-time-with-curl/) for the gift of graphs.
+Huge thank-you to [Copperlight](https://copperlight.github.io/shell/measuring-transfer-speed-over-time-with-curl/) for the gift of graphs, and [mjpost](https://github.com/mjpost/bin/blob/master/imgcat) for the awesome bash based image renderererer.
 
