@@ -10,7 +10,7 @@ While the basic speed tests should work in most *nix like OS, the application wh
 ## Installation
 
 
-No matter if you run this in Docker, or run it from the command line, you will need to clone the repo: `git clone https://github.com/chrisbuckley/hack-at-edge-speedtest.git`
+No matter if you run this in Docker, or run it from the command line, you will need to clone the repo: `git clone https://github.com/chrisbuckley/serverless-speedtest.git`
 
 Once cloned, decide your path...
 
