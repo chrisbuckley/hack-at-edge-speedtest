@@ -23,6 +23,6 @@ COPY test.sh curl_data.py requirements.sh imgcat ./
 RUN chmod -R +x ./ \
 	&& chown -R nobody:nogroup ./
 
-# USER nobody
+USER nobody
 
-CMD /bin/bash
+ENTRYPOINT ["/app/test.sh"]

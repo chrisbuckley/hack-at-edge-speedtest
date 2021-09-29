@@ -29,8 +29,10 @@ download_data() {
             print_usage
     esac
 
+
+    echo "Beginning download of ${size} test file..."
     curl -w '\nTEST - Download size:\t%{size_download}\nTEST - Average download speed:\t%{speed_download}\n\n' -L -o /dev/null "${url}" 2>&1 \
-        | tr -u '\r' '\n' > curl.out
+        | tr '\r' '\n' > curl.out
 
 }
 
@@ -64,7 +66,7 @@ run_tests() {
         up)
             upload_data
             ;;
-        ddown)
+        down)
             download_data $size 
             ;;
         *)  
