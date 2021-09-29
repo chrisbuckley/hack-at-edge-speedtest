@@ -3,7 +3,7 @@
 # set -x
 
 readonly BASE_URL=https://speedtest.edgecompute.app/
-# readonly BASE_URL=https://speedtest.global.ssl.fastly.net/
+#   readonly BASE_URL=https://speedtest.global.ssl.fastly.net/
 readonly TEST_TYPE=$1
 readonly SIZE=$2
 readonly BOLD_TEXT=$(tput bold 2>/dev/null)
@@ -18,18 +18,10 @@ download_data() {
 
     case $size in
         10M)
-            echo ""
-            echo "${BOLD_TEXT}************************************"
-            echo "${BOLD_TEXT}Too small for accurate download test"
-            echo "${BOLD_TEXT}************************************"
-            exit 1
+            file_too_small
             ;;
         20M)
-            echo ""
-            echo "${BOLD_TEXT}************************************"
-            echo "${BOLD_TEXT}Too small for accurate download test"
-            echo "${BOLD_TEXT}************************************"
-            exit 1
+            file_too_small
             ;;
         50M)
             local url="${BASE_URL}__down?bytes=50000000"
@@ -77,32 +69,16 @@ upload_data() {
             local file_size=$((50 * 1024))
             ;;
         100M)
-            echo ""
-            echo "${BOLD_TEXT}*************************"
-            echo "${BOLD_TEXT}Size too large for upload"
-            echo "${BOLD_TEXT}*************************"
-            exit 1
+            file_too_large
             ;;
         200M)
-            echo ""
-            echo "${BOLD_TEXT}*************************"
-            echo "${BOLD_TEXT}Size too large for upload"
-            echo "${BOLD_TEXT}*************************"
-            exit 1
+            file_too_large
             ;;
         500M)
-            echo ""
-            echo "${BOLD_TEXT}*************************"
-            echo "${BOLD_TEXT}Size too large for upload"
-            echo "${BOLD_TEXT}*************************"
-            exit 1
+            file_too_large
             ;;
         1G)
-            echo ""
-            echo "${BOLD_TEXT}*************************"
-            echo "${BOLD_TEXT}Size too large for upload"
-            echo "${BOLD_TEXT}*************************"
-            exit 1
+            file_too_large
             ;;
         *)
             print_usage
@@ -115,7 +91,6 @@ upload_data() {
 
     echo "${BOLD_TEXT}Beginning upload of ${size} test file...${NORMAL_TEXT}"
 
-    # Generate a synthetic file for upload
     curl -w '\nUpload size:\t%{size_upload}\nAverage speed:\t%{speed_upload}\n\n' -F 'data=@upload.bin' "${url}" 2>&1 \
         | tr '\r' '\n' > curl.out
 
@@ -162,6 +137,26 @@ print_usage() {
 
 show_error() {
     echo "${BOLD_TEXT}Missing components for report generation. Please run './requirements.sh'${NORMAL_TEXT}"
+    exit 1
+}
+
+file_too_large() {
+
+    echo "${BOLD_TEXT}"
+    echo "****************************************"
+    echo "ERROR: File is too large for upload test"
+    echo "****************************************"
+    echo ""
+    exit 1
+}
+
+file_too_small() {
+
+    echo "${BOLD_TEXT}"
+    echo "***************************************************"
+    echo "ERROR: File is too small for accurate download test"
+    echo "***************************************************"
+    echo ""
     exit 1
 }
 
