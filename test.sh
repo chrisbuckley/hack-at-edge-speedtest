@@ -2,8 +2,8 @@
 
 # set -x
 
-# readonly BASE_URL=https://speedtest.edgecompute.app/
-readonly BASE_URL=https://speedtest.global.ssl.fastly.net/
+readonly BASE_URL=https://speedtest.edgecompute.app/
+# readonly BASE_URL=https://speedtest.global.ssl.fastly.net/
 readonly TEST_TYPE=$1
 readonly SIZE=$2
 readonly BOLD_TEXT=$(tput bold 2>/dev/null)
@@ -18,11 +18,17 @@ download_data() {
 
     case $size in
         10M)
+            echo ""
+            echo "${BOLD_TEXT}************************************"
             echo "${BOLD_TEXT}Too small for accurate download test"
+            echo "${BOLD_TEXT}************************************"
             exit 1
             ;;
         20M)
+            echo ""
+            echo "${BOLD_TEXT}************************************"
             echo "${BOLD_TEXT}Too small for accurate download test"
+            echo "${BOLD_TEXT}************************************"
             exit 1
             ;;
         50M)
@@ -45,9 +51,10 @@ download_data() {
     esac
 
     echo "${BOLD_TEXT}Beginning download of ${size} test file...${NORMAL_TEXT}"
+
     curl -w "\nDownload size:\t%{size_download}\nAverage speed:\t%{speed_download}\n\n" -L -o /dev/null "${url}" 2>&1 \
         | tr '\r' '\n' > curl.out
-    echo "-----------------------------------"
+
     grep "Download size" curl.out | awk '{print $1,$2,$3 / 1048576,"MB"}'
 
 }
@@ -70,19 +77,31 @@ upload_data() {
             local file_size=$((50 * 1024))
             ;;
         100M)
+            echo ""
+            echo "${BOLD_TEXT}*************************"
             echo "${BOLD_TEXT}Size too large for upload"
+            echo "${BOLD_TEXT}*************************"
             exit 1
             ;;
         200M)
+            echo ""
+            echo "${BOLD_TEXT}*************************"
             echo "${BOLD_TEXT}Size too large for upload"
+            echo "${BOLD_TEXT}*************************"
             exit 1
             ;;
         500M)
+            echo ""
+            echo "${BOLD_TEXT}*************************"
             echo "${BOLD_TEXT}Size too large for upload"
+            echo "${BOLD_TEXT}*************************"
             exit 1
             ;;
         1G)
+            echo ""
+            echo "${BOLD_TEXT}*************************"
             echo "${BOLD_TEXT}Size too large for upload"
+            echo "${BOLD_TEXT}*************************"
             exit 1
             ;;
         *)
@@ -91,23 +110,25 @@ upload_data() {
 
     # Create test file
     echo "${BOLD_TEXT}Creating ${size} test file...${NORMAL_TEXT}"
+
     dd if=/dev/zero of=upload.bin  bs=1024  count=${file_size} > /dev/null 2>&1
 
     echo "${BOLD_TEXT}Beginning upload of ${size} test file...${NORMAL_TEXT}"
+
     # Generate a synthetic file for upload
-    # curl -F 'data=@upload.bin' "${url}" 2>&1 \
     curl -w '\nUpload size:\t%{size_upload}\nAverage speed:\t%{speed_upload}\n\n' -F 'data=@upload.bin' "${url}" 2>&1 \
         | tr '\r' '\n' > curl.out
-    echo "-----------------------------------"
-    grep "Upload size" curl.out | awk '{print $1,$2,$3 / 1048576,"MB"}'
 
     # Clean up synthetic file after
     rm upload.bin
+
+    grep "Upload size" curl.out | awk '{print $1,$2,$3 / 1048576,"MB"}'
 
 }
 
 generate_report() {
     ./curl_data.py curl.out 
+    echo "Bandwidth graph..."
     ./imgcat curl.out.png
 }
 
@@ -131,8 +152,7 @@ run_tests() {
 }
 
 show_average_speed() {
-    grep "Average speed" curl.out | awk '{print $1,$2,$3 / 125000,"mbit/sec"}'
-    echo "-----------------------------------"
+    grep "Average speed" curl.out | awk '{print $1,$2,$3 / 125000,"Mbit/sec"}'
 }
 
 print_usage() {
