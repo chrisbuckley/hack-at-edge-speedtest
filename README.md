@@ -2,7 +2,7 @@
 ## Overview
 This project aims to provide a carrier neutral speedtest mechanism for those who would like to check their bandwidth availabilty via the command-line, leveraging Fastly's Compute@Edge platform to provide consistent synthetic testing data from their global network of POPs.
 
-For more information on Fastly's Compute@Edge please visit: [https://www.fastly.com/products/edge-compute/serverless](https://www.fastly.com/products/edge-compute/serverless) 
+For more information on Fastly's Compute@Edge check out: [https://www.fastly.com/products/edge-compute/serverless](https://www.fastly.com/products/edge-compute/serverless) 
 
 If everything works, you should be able to see something like this:
 
