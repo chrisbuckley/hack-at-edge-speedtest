@@ -4,6 +4,10 @@ This project aims to provide a carrier neutral speedtest mechanism for those who
 
 For more information on Fastly's Compute@Edge please visit: [https://www.fastly.com/products/edge-compute/serverless](https://www.fastly.com/products/edge-compute/serverless) 
 
+If everything works, you should be able to see something like this:
+
+![](screenshot.png)
+
 ## Caveats
 While the basic speed tests should work in most *nix like OS, the application which provides the graph of "bandwidth over time" only works in iTerm2 on OSX for now. 
 
