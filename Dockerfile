@@ -12,6 +12,10 @@ RUN apt-get -y dist-upgrade \
 		libncurses5-dev \
 		make \
 		python3 \
+	&& apt-get -y remove \
+		g++ \
+		gcc \
+		make \
 	&& apt-get -y autoremove \
 	&& apt-get -y autoclean \
 	&& mkdir /app
