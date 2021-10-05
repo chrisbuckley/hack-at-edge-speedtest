@@ -24,19 +24,19 @@ download_data() {
             file_too_small
             ;;
         50M)
-            local url="${BASE_URL}__down?bytes=50000000"
+            local url="${BASE_URL}__down?bytes=$((50 * 1024 * 1024))"
             ;;
         100M)
-            local url="${BASE_URL}__down?bytes=100000000"
+            local url="${BASE_URL}__down?bytes=$((100 * 1024 * 1024))"
             ;;
         200M)
-            local url="${BASE_URL}__down?bytes=200000000"
+            local url="${BASE_URL}__down?bytes=$((200 * 1024 * 1024))"
             ;;
         500M)
-            local url="${BASE_URL}__down?bytes=500000000"
+            local url="${BASE_URL}__down?bytes=$((500 * 1024 * 1024))"
             ;;
         1G)
-            local url="${BASE_URL}__down?bytes=1000000000"
+            local url="${BASE_URL}__down?bytes=$((1000 * 1024 * 1024))"
             ;;
         *)
             print_usage
